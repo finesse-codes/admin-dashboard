@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-start w-full">
+  <div class="flex items-start w-full  ">
     <Sidebar />
-    <div class="mt-[80px] lg:mt-0 p-5 w-full">
+    <div class=" mt-[80px] lg:mt-0 p-5 w-full">
         <slot />
     </div>
    

@@ -5,9 +5,7 @@
         <p>Hi, Cheryl. Welcome back.</p>
         <h1>Dashboard</h1>
       </div>
-      <div class="w-[120px] h-[36px] bg-neutral-200">
-
-      </div>
+      <ProductNew />
     </header>
     <main class="grid gap-4">
       <div class="flex items-center gap-4" @click="setCategory" >
@@ -28,15 +26,17 @@
 
           </Tabs>
       </div>
-      <section>
-        <div class="w-full h-[360px] bg-neutral-200">chart</div>
-        
-      </section>
+
     </main>
     <footer>
-      <div class="flex items-center gap-4">
-        <div v-for="(item, index) in 3" :key="index" class="w-full h-[200px] bg-neutral-200"></div> 
-      </div>
+      <div class="grid lg:grid-cols-3 gap-4">
+        <CardComponent
+      v-for="(item, index) in cards"
+      :key="index"
+      :card="item"
+      class="w-full h-[200px"
+    />      
+  </div>
       </footer>
   </div>
 </template>
@@ -155,6 +155,13 @@ const options = computed(() => ({
     }
   ]
 }));
+
+const cards = [  
+  { title: 'Sales', progression: 12,  amount: '1,250.00', prefix: '$', suffix: '',  label: "View Sales", description: "Sales for March 2024", icon: 'bx:bxs-wallet' },
+  { title: 'Refunds', progression: 5, amount: '75', prefix: '$', suffix: '', label: "View Refunds", description: 'Orders for March 2024', icon: 'bx:bxs-shopping-bags' },
+  { title: 'Payouts', progression: 8, amount: '350', prefix: '$', suffix: '', label: "View Payouts", description: 'Revenue for March 2024', icon: 'bx:bxs-coin-stack' },
+  { title: 'Visitors', progression: 3, amount: '1,250', prefix: '', suffix: '', label: "View Visitors", description: 'Visitors for March 2024', icon: 'bx:bxs-user' }
+]
 
 onMounted(() => {
   generateRandomData(24);

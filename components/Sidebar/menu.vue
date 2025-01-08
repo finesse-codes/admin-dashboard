@@ -6,7 +6,7 @@
         </header>
         <div class="px-4 grow">
             <div class="grid gap-2">
-                <NuxtLink :to="`/${item.page}`" v-for="item, index in items" :key="item.index" class="flex items-center gap-2 px-2 py-1 transition rounded cursor-pointer hover:bg-neutral-100">
+                <NuxtLink :to="item.page" v-for="item, index in items" :key="item.index" class="flex items-center gap-2 px-2 py-1 transition rounded cursor-pointer hover:bg-neutral-100">
                     <Icon :name="item.icon" size="20"/>
                     {{ item.title }}
 
@@ -27,24 +27,24 @@ const items = ref([
     {
         title: 'transactions',
         icon: 'bx:bxs-credit-card',
-        page: 'transactions'
+        page: '/transactions'
     },
     {
         title: 'account',
         icon: 'mdi:account-circle-outline',
-        page: 'account'
+        page: '/account'
 
     },
     {
         title: 'contacts',
         icon: 'ant-design:contacts-filled',
-        page: 'contacts'
+        page: '/contacts'
 
     },
     {
         title: 'settings',
         icon:  'bx:bxs-cog',
-        page: 'settings'
+        page: '/settings'
     }
 ])
 

@@ -1,6 +1,12 @@
-# Nuxt Minimal Starter
+# Admin Dashboard
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Generic dashboard to use with client projects.
+Created with Nuxt 3
+
+### Highlights:
+
+- UI built with Shadcn for Vue
+- use of highcharts
 
 ## Setup
 

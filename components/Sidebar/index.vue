@@ -1,6 +1,6 @@
 <template>
     <div >
-        <header class="flex lg:hidden justify-between w-full absolute p-4 ">
+        <header class="flex lg:hidden justify-between fixed w-full p-4 ">
 
             <Logo />
 
@@ -13,10 +13,10 @@
             </div>
             </div>
         
-        <div class="hidden lg:flex w-[250px] flex-col justify-between border-r">
+        <div class="hidden lg:flex w-[250px] flex-col sticky top-0 justify-between h-screen border-r">
             <SidebarMenu />
             <div>
-                User Item
+                <UserItem />
             </div>
         </div>
 
