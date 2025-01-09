@@ -27,7 +27,7 @@ function generateRandomData(numObjects: any){
     return data.value = randomData;
 }
 onMounted(() => {
-    generateRandomData(10);
+    generateRandomData(20);
 });
 </script>
 
