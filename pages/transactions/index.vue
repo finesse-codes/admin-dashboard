@@ -28,6 +28,7 @@ function generateRandomData(numObjects: any){
 }
 onMounted(() => {
     generateRandomData(20);
+    // when doing the actual implementation, make sure to retrieve data with pagination and add to the code.
 });
 </script>
 

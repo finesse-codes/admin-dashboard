@@ -1,4 +1,12 @@
+import type { ColumnDef } from '@tanstack/vue-table';
 import { h } from 'vue'
+
+interface Payment {
+  email: string;
+  amount: number;
+  status: string;
+  id: string;
+}
 
 export const columns: ColumnDef<Payment>[] = [
   {
