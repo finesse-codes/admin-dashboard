@@ -1,23 +1,17 @@
 <template>
-  <div class="grid gap-8 ">
-    <header class="flex justify-between items-center p-4 bg-neutral-100">
-      <div class="grow">      
-        <p>Hi, Cheryl. Welcome back.</p>
-        <h1>Dashboard</h1>
-      </div>
-      <ProductNew />
-    </header>
+  <div class="grid gap-8 bg-neutral-100">
+    <PageHeader title="Dashboard" greeting="Hi, Cheryl. Welcome back." />
     <main class="grid gap-4">
       <div class="flex items-center gap-4" @click="setCategory" >
 
-          <Tabs default-value="Today"  class="max-w-full w-full">
+          <Tabs default-value="Today"  class="max-w-full w-1/2">
             <TabsList class="max-w-[400px]">
               <TabsTrigger v-for="item, index in list" :key="index" :value="item.title" >
                 {{ item.title }}
               </TabsTrigger>
             </TabsList>
             <TabsContent v-for="item, index in list" :key="index" :value="item.title">
-              <div class="border p-4 rounded-sm drop-shadow-sm">
+              <div class="border p-4 rounded-sm drop-shadow-sm bg-white">
                 <highchart :options = "options"  />
               </div>
               
@@ -157,10 +151,10 @@ const options = computed(() => ({
 }));
 
 const cards = [  
-  { title: 'Sales', progression: 12,  amount: '1,250.00', prefix: '$', suffix: '',  label: "View Sales", description: "Sales for March 2024", icon: 'bx:bxs-wallet' },
+  { title: 'Sales', progression: 12,  amount: '1,250', prefix: '$', suffix: '',  label: "View Sales", description: "Sales for March 2024", icon: 'bx:bxs-wallet' },
   { title: 'Refunds', progression: 5, amount: '75', prefix: '$', suffix: '', label: "View Refunds", description: 'Orders for March 2024', icon: 'bx:bxs-shopping-bags' },
   { title: 'Payouts', progression: 8, amount: '350', prefix: '$', suffix: '', label: "View Payouts", description: 'Revenue for March 2024', icon: 'bx:bxs-coin-stack' },
-  { title: 'Visitors', progression: 3, amount: '1,250', prefix: '', suffix: '', label: "View Visitors", description: 'Visitors for March 2024', icon: 'bx:bxs-user' }
+  { title: 'Visitors', progression: 3, amount: '970', prefix: '', suffix: '', label: "View Visitors", description: 'Visitors for March 2024', icon: 'bx:bxs-user' }
 ]
 
 onMounted(() => {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PageHeader title="Account" />
     
   </div>
 </template>
