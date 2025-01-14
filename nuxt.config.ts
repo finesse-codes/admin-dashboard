@@ -6,8 +6,15 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxtjs/color-mode',
     '@nuxt/icon',
-    'nuxt-highcharts'
+    'nuxt-highcharts',
+    '@pinia/nuxt',
+    'nuxt-auth-utils',
+    'pinia-plugin-persistedstate/nuxt',
+    
   ],
+  pinia: {
+    storesDirs: ['./stores/**',],
+  },
   shadcn: {
     /**
      * Prefix for all the imported component

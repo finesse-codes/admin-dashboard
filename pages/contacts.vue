@@ -1,6 +1,7 @@
 <template>
   <div>
     <PageHeader  title="Contacts"/>
+    change this to users?
   </div>
 </template>
 

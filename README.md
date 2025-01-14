@@ -6,7 +6,14 @@ Created with Nuxt 3
 ### Highlights:
 
 - UI built with Shadcn for Vue
+- pinia to manage state
 - use of highcharts
+
+## todo
+
+- change authentication to work with provider
+- on login, user should be set in store
+- this should be persisted (pinia-persistedstate)
 
 ## Setup
 
