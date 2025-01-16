@@ -11,6 +11,7 @@
                     {{ item.title }}
 
                 </NuxtLink>
+                <Button @click="onLogout" class="w-full" > <Icon name="basil:logout-outline"/> Logout</Button>
             </div>
         </div>
 
@@ -18,6 +19,14 @@
 </template>
 
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+const router = useRouter();
+const onLogout = () => {
+    userStore.logout();
+    router.push('/auth');
+}
 const items = ref([
     {
         title: "overview",
@@ -36,9 +45,9 @@ const items = ref([
 
     },
     {
-        title: 'contacts',
+        title: 'messages',
         icon: 'ant-design:contacts-filled',
-        page: '/contacts'
+        page: '/messages'
 
     },
     {

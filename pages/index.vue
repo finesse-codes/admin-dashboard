@@ -1,6 +1,7 @@
 <template>
-  <div class="grid gap-8 bg-neutral-100">
-    <PageHeader title="Dashboard" greeting="Hi, Cheryl. Welcome back." />
+  <div class="grid gap-8 bg-neutral-100" v-if="user" >
+    <PageHeader title="Dashboard" :greeting="`Hi, ${user.name}. Welcome back.`" />
+
     <main class="grid gap-4">
       <div class="flex items-center gap-4" @click="setCategory" >
 
@@ -33,10 +34,13 @@
   </div>
       </footer>
   </div>
+
 </template>
 
 <script lang="ts" setup>
-const loading = ref(false);
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+const user = userStore.user;
 
 const list = [
   { title: 'Today' },

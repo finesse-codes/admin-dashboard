@@ -1,5 +1,5 @@
 <template>
-      <header class="flex justify-between items-center p-4 bg-neutral-200">
+      <header class="flex justify-between items-center p-4 bg-neutral-200 mt-6 sm:mt-0">
         <div class="grow">      
         <p v-if="props.greeting">{{ props.greeting }}</p>
         <h1>{{props.title}}</h1>

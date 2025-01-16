@@ -1,6 +1,7 @@
 <template>
-    <PageHeader  title="Login"/>
-    <div class="flex items-center justify-center h-[80vh]">
+    <h1 class="my-8 text-center">NuxtAdmin</h1>
+    <div class="flex flex-col items-center justify-center h-[80vh]">
+
         <form class="xl:w-1/3 md:w-2/3 w-full space-y-6" @submit="onSubmit">
             <h2 class="font-bold text-xl text-center">Login</h2>
             <FormField v-slot="{ componentField }" name="email">
@@ -55,6 +56,9 @@ import { h } from 'vue'
 import * as z from 'zod'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
+definePageMeta({
+    layout: 'login'
+})
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().email(),
@@ -64,14 +68,19 @@ const formSchema = toTypedSchema(z.object({
 const { handleSubmit } = useForm({
   validationSchema: formSchema,
 })
-const validEmail = 'admin@xample.com'
+const validEmail = 'admin@example.com'
 const validPassword = 'password'
 const onSubmit = handleSubmit((values) => {
-    console.log(values)
-
-    userStore.setUser({
+    if (values.email !== validEmail || values.password !== validPassword) {
+        return toast({
+            title: 'Login',
+            description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, 'Invalid email or password')),
+        })
+    } else {
+        userStore.setUser({
         email: values.email,
-        name: 'Admin'
+        role: 'superadmin',
+        name: 'Sally Hansen'
     })
     toast({
         title: 'Login',
@@ -79,6 +88,8 @@ const onSubmit = handleSubmit((values) => {
     })
     return navigateTo('/')
     
+    }
+
 
 })
 </script>
