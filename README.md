@@ -1,7 +1,7 @@
 # Admin Dashboard
 
 Generic dashboard to use with client projects.
-Created with Nuxt 3
+Created with Nuxt 3. Connects to Strapi backend.
 
 ### Highlights:
 

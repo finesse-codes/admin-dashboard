@@ -2,26 +2,27 @@
     <div>
       <PageHeader title="Messages" />
       <div class="grid max-w-[1400px] mx-auto gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-      <div class="">
+      <div class="h-[87vh] overflow-y-scroll">
         <h2 class="text-xl font-bold mt-6 ml-4">Contact Form Messages</h2>
-        <div class="space-y-4 bg-white p-6 m-2 rounded-md shadow-sm " @click="selectMessage(message.id)" v-for="message in paginatedMessages" :key="message.id"  >
+        <div class="space-y-4 bg-white p-6 m-2 rounded-md shadow-sm hover:scale-[102%] transition-all duration-100 cursor-pointer " v-if="messages" @click="selectMessage(message.id)" v-for="message in messages" :key="message.id"  >
           <div class="flex items-center justify-between">
-            <div>
+            <div class="">
               <p class="font-bold">{{ message.name }}<span class="font-light ml-5">{{ message.email }}</span></p>
               <p class="text-sm text-gray-500">{{ message.subject }}</p>
             </div>
-            <div>
-              <p class="text-sm text-gray-500">{{ message.timeAgo}}</p>
+            <div class="flex gap-4">
+              <p class="text-sm text-gray-500">{{ timeAgo(message.createdAt)}}</p>
+              <Icon class="text-gray-500 hover:text-black hover:scale-105 transition-all duration-100" @click="onDelete(message.id)" size="20" name="material-symbols:delete-outline-sharp" />
             </div>
           </div>
           <div>
-            <p class="text-sm">{{ message.message }}</p>
+            <p class="text-sm">{{ message.content  }}</p>
         </div>
           <h2></h2>
         </div>
       </div>
-      <div class="">
-        <p if="selectedMessage" class="text-xl font-bold mt-6 ml-4">Selected Message</p>
+      <div class="h-[87vh] overflow-y-scroll">
+        <p if="selectedMessage" class="text-xl font-bold mt-6 ml-4">View Message</p>
         <div class="space-y-4 bg-white p-6 m-2 rounded-md shadow-sm h-[90%] " v-if="selectedMessage" >
           <div v-if="selectedMessageData">
             <div class="flex justify-between border-b mb-5">
@@ -37,11 +38,12 @@
                 
 
               
-              <p>{{ selectedMessageData.formattedTimestamp }}</p>
+              <p>{{ formatTimestamp(selectedMessageData.createdAt)}}</p>
+              <Icon name="material-symbols:delete-outline-sharp" @click="onDelete(selectedMessageData.id)" size="20" class="text-gray-500 hover:text-black hover:scale-105 transition-all duration-100 cursor-pointer" />
 
             </div>
 
-            <p> {{ selectedMessageData.message }}</p>
+            <p> {{ selectedMessageData.content}}</p>
           </div>
       </div>
     </div>
@@ -51,107 +53,25 @@
   
   <script lang="ts" setup>
   const selectedMessage = ref<number | null>(null);
+  // Define the type of a message
+interface Message {
+  id: number;
+  company: string;
+  content: string;
+  name: string;
+  subject: string;
+  email: string;
+  createdAt: string;
+  publishedAt: string;
+  updatedAt: string;
+}
   const messagesPerPage = 10; // Number of messages per page
   const currentPage = ref(1); // Current page
-
-  const messages = ref([
-    {
-      id: 1,
-      name: 'John Doe',
-      subject: 'Hello',
-      email: 'john@example.com',
-      message: 'Hello, I am interested in your services.',
-      timestamp: "2024-10-15T11:42:00.000Z"
-    },
-    {
-      id: 2,
-      name: 'Robert Black',
-      subject: 'Hi there',
-      email: 'rblack@gmail.com',
-      message: 'Just wanted to say hi. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      timestamp: "2024-11-03T06:21:00.000Z"
-    },
-    {
-      id: 3,
-      name: 'Indira Shaw',
-      subject: 'Lorem ipsum',
-      email: 'ishaw@email.com',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus.',
-      timestamp: "2024-12-09T14:09:00.000Z"
-    },
-    {
-      id: 4,
-      name: 'Sandra Dee',
-      subject: 'Question about your services',
-      email: 'sandradee@hotmail.com',
-      message: 'I am wondering if blah blah blah.',
-      timestamp: "2024-12-29T19:58:00.000Z"
-    },
-    {
-      id: 5,
-      name: 'John Doe',
-      subject: 'Hello',
-      email: 'john@example.com',
-      message: 'Hello, I am interested in your services.',
-      timestamp: "2024-10-15T11:42:00.000Z"
-    },
-    {
-      id: 6,
-      name: 'Robert Black',
-      subject: 'Hi there',
-      email: 'rblack@gmail.com',
-      message: 'Just wanted to say hi. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      timestamp: "2024-11-03T06:21:00.000Z"
-    },
-    {
-      id: 7,
-      name: 'Indira Shaw',
-      subject: 'Lorem ipsum',
-      email: 'ishaw@email.com',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus.',
-      timestamp: "2024-12-09T14:09:00.000Z"
-    },
-    {
-      id: 8,
-      name: 'Sandra Dee',
-      subject: 'Question about your services',
-      email: 'sandradee@hotmail.com',
-      message: 'I am wondering if blah blah blah.',
-      timestamp: "2024-12-29T19:58:00.000Z"
-    },
-    {
-      id: 9,
-      name: 'John Doe',
-      subject: 'Hello',
-      email: 'john@example.com',
-      message: 'Hello, I am interested in your services.',
-      timestamp: "2024-10-15T11:42:00.000Z"
-    },
-    {
-      id: 10,
-      name: 'Robert Black',
-      subject: 'Hi there',
-      email: 'rblack@gmail.com',
-      message: 'Just wanted to say hi. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      timestamp: "2024-11-03T06:21:00.000Z"
-    },
-    {
-      id: 11,
-      name: 'Indira Shaw',
-      subject: 'Lorem ipsum',
-      email: 'ishaw@email.com',
-      message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus.',
-      timestamp: "2024-12-09T14:09:00.000Z"
-    },
-    {
-      id: 12,
-      name: 'Sandra Dee',
-      subject: 'Question about your services',
-      email: 'sandradee@hotmail.com',
-      message: 'I am wondering if blah blah blah.',
-      timestamp: "2024-12-29T19:58:00.000Z"
-    }
-  ])
+  const messages = ref<Message[]>([])
+  const { find, delete: _delete } = useStrapi()
+  const response = await find('messages?sort[0]=createdAt:desc')
+  messages.value = response.data
+  
   const timeAgo = (timestamp: string | Date): string => {
   const now = new Date();
   const date = new Date(timestamp);
@@ -167,7 +87,6 @@
     second: 1,
   };
 
-
   for (const [unit, secondsInUnit] of Object.entries(intervals)) {
     const interval = Math.floor(seconds / secondsInUnit);
     if (interval >= 1) {
@@ -177,12 +96,8 @@
 
   return 'just now';
 };
-const formattedMessages = messages.value.map((message) => ({
-  ...message,
-  timeAgo: timeAgo(message.timestamp),
-}));
-  // Function to format the timestamp
-  const formatTimestamp = (timestamp: string) => {
+// Function to format the timestamp
+const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
@@ -193,56 +108,34 @@ const formattedMessages = messages.value.map((message) => ({
     hour12: true,
   }).format(date);
 };
+// Assume messages are already ordered by createdAt in descending order
+const setLatestMessage = () => {
+  if (messages.value.length > 0) {
+    selectedMessage.value = messages.value[0].id; // Set to the first message's ID
+  }
+};
 
-// Sort messages by most recent timestamp
-const sortedMessages = formattedMessages
-  .slice() // Clone the array to avoid mutating the original
-  .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-  .map((message) => ({
-    ...message,
-    timeAgo: timeAgo(message.timestamp),
-  }));
-
+// Call the function to initialize the selected message
+setLatestMessage();
 // Computed property to get the selected message
-const selectedMessageData = computed(() => {
-  const message = messages.value.find((msg) => msg.id === selectedMessage.value);
-  return message
-    ? {
-        ...message,
-        formattedTimestamp: formatTimestamp(message.timestamp),
-      }
-    : null;
-});
+const selectedMessageData = computed(() =>
+  messages.value.find((msg) => msg.id === selectedMessage.value) || null
+);
+
 // Function to update the selected message
 const selectMessage = (id: number) => {
   selectedMessage.value = id;
 };
 
-// Paginated messages based on currentPage
-const paginatedMessages = computed(() => {
-  const start = (currentPage.value - 1) * messagesPerPage;
-  const end = start + messagesPerPage;
-  return messages.value.slice(start, end);
-});
-
-// Total pages
-const totalPages = computed(() => Math.ceil(messages.value.length / messagesPerPage));
-
-// Navigate to the next page
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-  }
-};
-
-// Navigate to the previous page
-const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-};
+// delete message
+const onDelete = async (id: number) => {
+  await _delete('messages', id)
+  messages.value = messages.value.filter((message: Message) => message.id !== id)
+  setLatestMessage();
+}
   </script>
   
   <style>
   
   </style>
+

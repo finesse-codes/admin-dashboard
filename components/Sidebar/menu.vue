@@ -23,7 +23,11 @@ import { Button } from '@/components/ui/button';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const router = useRouter();
+const { logout } = useStrapiAuth()
 const onLogout = () => {
+    // log out of strapi
+    logout()
+    // log out of user store
     userStore.logout();
     router.push('/auth');
 }

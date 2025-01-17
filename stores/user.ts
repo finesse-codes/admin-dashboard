@@ -3,13 +3,18 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null as { 
+      id: number;
       email: string; 
-      name: string;
+      username: string;
       role: string;
+      updatedAt: string;
+      blocked: boolean;
+      confirmed: boolean;
+      provider: string;
      } | null, // Reactive state
   }),
   actions: {
-    setUser(userData: { email: string; name: string; role: string; }) {
+    setUser(userData: any ) {
       console.log('starting to set user:', userData)
       this.user = userData;
     },

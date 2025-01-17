@@ -59,6 +59,8 @@ const userStore = useUserStore()
 definePageMeta({
     layout: 'login'
 })
+const strapi = useStrapi();
+const { login } = useStrapiAuth()
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().email(),
@@ -68,28 +70,33 @@ const formSchema = toTypedSchema(z.object({
 const { handleSubmit } = useForm({
   validationSchema: formSchema,
 })
-const validEmail = 'admin@example.com'
-const validPassword = 'password'
-const onSubmit = handleSubmit((values) => {
-    if (values.email !== validEmail || values.password !== validPassword) {
+
+const onSubmit = handleSubmit(async(values) => {
+    if (!values.email || !values.password) {
         return toast({
             title: 'Login',
-            description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, 'Invalid email or password')),
+            description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, 'No email or password provided')),
         })
     } else {
-        userStore.setUser({
-        email: values.email,
-        role: 'superadmin',
-        name: 'Sally Hansen'
-    })
+        // log in to strapi
+        try {
+            await login({ identifier: values.email, password: values.password })
+            const user = useStrapiUser()
+            console.log(user)
+            userStore.setUser(user)
+            
     toast({
         title: 'Login',
         description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, 'You have successfully logged in!')),
     })
     return navigateTo('/')
+        }catch(e) {
+            console.log('error: ', e)
+        }
     
     }
 
 
 })
+
 </script>

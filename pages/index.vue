@@ -1,6 +1,6 @@
 <template>
   <div class="grid gap-8 bg-neutral-100" v-if="user" >
-    <PageHeader title="Dashboard" :greeting="`Hi, ${user.name}. Welcome back.`" />
+    <PageHeader title="Dashboard" :greeting="`Hi, ${user.username}. Welcome back.`" />
 
     <main class="grid gap-4">
       <div class="flex items-center gap-4" @click="setCategory" >
@@ -66,7 +66,7 @@ let categories = {
   year: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 };
 
-function generateRandomData(number) {
+function generateRandomData(number: number) {
   let values = [];
   for (let i = 0; i < number; i++) {
     values.push(Math.floor(Math.random() * 100));

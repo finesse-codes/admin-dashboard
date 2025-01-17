@@ -10,20 +10,15 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-auth-utils',
     'pinia-plugin-persistedstate/nuxt',
-    
+    '@nuxtjs/strapi',
   ],
   pinia: {
     storesDirs: ['./stores/**',],
   },
-  shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
-    prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
-    componentDir: './components/ui'
-  }
+  strapi: {
+    url: process.env.STRAPI_URL || 'http://localhost:1337',
+    prefix: '/api',
+    admin: '/admin'
+  },
+
 })
