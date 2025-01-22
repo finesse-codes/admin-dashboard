@@ -12,15 +12,19 @@ export const useUserStore = defineStore('user', {
       confirmed: boolean;
       provider: string;
      } | null, // Reactive state
-  }),
+  }
+),
   actions: {
     setUser(userData: any ) {
       console.log('starting to set user:', userData)
       this.user = userData;
+      console.log('user set:', this.user)
     },
     logout() {
       this.user = null;
     }
   },
-  persist: true,
+
+
+  
 })

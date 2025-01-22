@@ -82,14 +82,23 @@ const onSubmit = handleSubmit(async(values) => {
         try {
             await login({ identifier: values.email, password: values.password })
             const user = useStrapiUser()
-            console.log(user)
-            userStore.setUser(user)
+            console.log(user.value)
+            userStore.setUser({
+                username: user.value?.username,
+                email: user.value?.email,
+                id: user.value?.id,
+                blocked: user.value?.blocked,
+                provider: user.value?.provider,
+                confirmed: user.value?.confirmed,
+            })
+            
+
             
     toast({
         title: 'Login',
         description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, 'You have successfully logged in!')),
     })
-    return navigateTo('/')
+    return setTimeout(() => navigateTo('/'), 100); // Add a slight delay
         }catch(e) {
             console.log('error: ', e)
         }

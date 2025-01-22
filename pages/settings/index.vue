@@ -3,14 +3,61 @@
     <template>
       <div v-if="user">
       <PageHeader title="Settings" />
-    <div class="md:flex gap-5 items-start justify-center mt-10 ">
+    <div class="md:flex gap-5 items-center justify-center mt-10 ">
 
         <div class="md:w-1/2 w-full  flex flex-col gap-3">
+
+        <div class="space-y-6 my-3 bg-white p-5 rounded-md ">
+            <div class="flex gap-5  items-end justify-between ">
+        
+                <div class="flex flex-col gap-1 w-full">
+                    <h2 class="font-bold text-xl text-left mb-3">Main Contact Info</h2>
+                    <div class="bg-stone-100 rounded-sm p-4 flex justify-between w-full">
+                        <div>                    
+                            <p><span class="font-semibold my-2">Admin Email:</span> {{ email}}</p>
+                    <p><span class="font-semibold my-2">Main Phone:</span> n/a</p>
+
+                </div>
+                <div class="flex gap-1">
+                        <Icon name="tabler:edit" size="20" class="text-gray-600 "/>
+                        <Icon name="material-symbols-light:delete" size="20" class="text-gray-600 "/>
+                    </div>
+
+                </div>
+
+               
+            </div>
+
+        </div>
+        <div class="flex justify-between pt-6">
+            <h2 class="font-bold text-xl text-left">Addresses </h2>
+            
+        </div>
+
+
+            <div class="flex gap-3 justify-between items-center bg-stone-100 rounded-sm p-3" v-if="addresses" v-for="(address, index) in addresses" :key="index">
+                <div class="flex flex-col gap-1">
+                    <p class="font-semibold">{{address.name}} </p>
+                    <p>{{ address.street_address }}</p>
+                    <p>{{ address.Suburb }}</p>
+                    <p>{{address.State}}</p>
+                    <p><span class="font-semibold">Phone: </span>{{address.Phone}}</p>
+                </div>
+                <div class="flex gap-1">
+                    <Icon name="tabler:edit" size="20" class="text-gray-600 "/>
+                    <Icon name="material-symbols-light:delete" size="20" class="text-gray-600 "/>
+                </div>
+            </div>
+            <Button class=" w-[200px] mx-auto">Add another address</Button>
+
+        </div>
+        </div>
+        <div class="xl:w-1/2 w-full space-y-6 my-3 bg-white p-5 rounded-md" @submit="onSubmit">
             <div class="space-y-6 my-3 bg-white p-5 rounded-md " >
             <h2 class="font-bold text-xl text-center">Your details</h2>
-            <p><span class="font-semibold">Name:</span> {{ user.name }}</p>
+            <p><span class="font-semibold">Name:</span> {{ user.username }}</p>
             <p><span class="font-semibold">Email: </span>{{ user.email }}</p>
-            <p><span>Role:</span> {{ user.role }}</p>
+
 
             <Button type="" class="mr-3">
             Edit
@@ -19,38 +66,6 @@
             Change Password
             </Button>
         </div>
-        <div class="space-y-6 my-3 bg-white p-5 rounded-md ">
-            <div class="flex gap-5  items-end justify-between ">
-            <div class="flex flex-col gap-1">
-                <h2 class="font-bold text-xl text-left mb-3">Main Contact Info</h2>
-                <div class="bg-stone-100 rounded-sm p-4">
-                <p><span class="font-semibold my-2">Admin Email:</span>admin@business.com</p>
-                <p><span class="font-semibold my-2">Main Phone:</span>0499 202 3850</p>
-                <Button class="mr-3 w-[200px] mt-5">Edit contact info</Button>
-            </div>
-            </div>
-            <div class="flex flex-col gap-1">
-            </div>
-        </div><div class="flex justify-between pt-6">
-            <h2 class="font-bold text-xl text-left">Addresses</h2>
-            <Button class="mr-3 w-[200px]">Add another address</Button>
-        </div>
-
-
-            <div class="flex gap-3 justify-between items-center bg-stone-100 rounded-sm p-3" v-for="address in addresses" :key="address.name">
-                <div class="flex flex-col gap-1">
-                    <p><span class="font-semibold">Name:</span> {{address.name}}</p>
-                    <p><span class="font-semibold">Street Address: </span>{{ address.street }}</p>
-                    <p><span class="font-semibold">Suburb: </span>{{ address.suburb }}</p>
-                    <p><span class="font-semibold">State: </span>{{address.state}}</p>
-                    <p><span class="font-semibold">Phone: </span>{{address.phone}}</p>
-            </div>
-                <Button class="mr-3 w-[200px] bg-stone-400">Edit {{ address.name }}</Button>
-            </div>
-
-        </div>
-        </div>
-        <div class="xl:w-1/2 w-full space-y-6 my-3 bg-white p-5 rounded-md" @submit="onSubmit">
             <h2 class="font-bold text-xl text-center">Current Users</h2>
             <DataTable :data="data"  :columns="columns" heading="Current Users"/>
 
@@ -121,6 +136,7 @@
             </Button>
         </form>
         </div>
+
   <Toaster />
 </div>
 </template>
@@ -144,6 +160,42 @@ import { h } from 'vue'
 import * as z from 'zod'
 import { useUserStore } from '@/stores/user'
 import { columns } from './columns';
+
+interface Address {
+    id: number
+    street_address: string
+    street_address2: string | null
+    Suburb: string
+    postCode: number
+    name: string
+    phone: string | null
+}
+interface Home {
+    id: number
+    email: string
+    Address: Address[]
+}
+const addresses = ref([])
+const home: Ref<Home | null>= ref(null)
+    const email = ref('')
+const { findOne } = useStrapi()
+
+onMounted  (async () => {
+    try {
+        const response = await findOne('home', {
+            populate: {
+                Address: '*'
+            }
+        })
+        console.log('response', response.data.Address)
+        email.value = response.data.email
+        addresses.value = response.data.Address
+   } catch (error) {
+        console.error('error fetching HOme content', error)
+    }
+
+})
+
 const data = ref<any>([
     {
         name: 'John Doe',
@@ -167,22 +219,7 @@ const data = ref<any>([
     }
 
 ]);
-const addresses = ref([
-    {
-        name: 'Postal Address',
-        street: 'PO Box 2463',
-        suburb: 'Suburb',
-        state: 'QLD',
-        phone: '0423 456 789'
-    },
-    {
-        name: 'Physical Address',
-        street: 'PO Box 2463',
-        suburb: 'Suburb',
-        state: 'QLD',
-        phone: '0423 456 789'
-    }   
-])
+
 const userStore = useUserStore()
 const user = userStore.user
 
@@ -220,4 +257,5 @@ const onSubmit = handleSubmit((values) => {
 
 
 })
+
 </script>

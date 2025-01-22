@@ -16,7 +16,7 @@
         <div class="hidden lg:flex w-[250px] flex-col sticky top-0 justify-between h-screen border-r">
             <SidebarMenu />
             <div>
-                <UserItem v-if="user" :name="user.name" :role="user.role"/>
+                <UserItem v-if="user" :name="user.username" :email="user.email"/>
             </div>
         </div>
 
@@ -30,6 +30,7 @@
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const user = userStore.user;
+
 const open = ref(false);
 
 </script>

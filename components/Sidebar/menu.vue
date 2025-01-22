@@ -59,6 +59,11 @@ const items = ref([
         icon:  'bx:bxs-cog',
         page: '/settings'
     },
+    {
+        title: 'jobs',
+        icon:  'bx:bxs-cog',
+        page: '/jobs'
+    },
 
 ])
 

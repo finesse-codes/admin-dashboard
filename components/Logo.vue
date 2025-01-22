@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-hidden rounded-lg w-[45px]">
-        <img src="~/assets/images/logo.png" alt="logo" />
+        <NuxtImg src="/logo/logo.png" alt="logo" />
     </div>
 </template>
 

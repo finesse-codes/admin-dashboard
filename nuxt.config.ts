@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/strapi',
+    '@nuxt/image',
   ],
   pinia: {
     storesDirs: ['./stores/**',],
