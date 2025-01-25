@@ -169,6 +169,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import { Button } from '@/components/ui/button';
+
   const { findOne, update, find } = useStrapi();
   const route = useRoute();
   const job = ref(null);
@@ -244,12 +245,14 @@
       };
   
       await update('job-postings', jobId, payload);
+      editForm.value = false;
+
 
     } catch (error) {
       console.error('Error updating job details:', error);
     }
   };
-  
+
   // Convert Strapi rich text list to a simple array
   const strapiToList = (richText) => {
     if (!richText || !Array.isArray(richText) || !richText[0]?.children) return [];

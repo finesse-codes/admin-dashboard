@@ -61,7 +61,7 @@ const items = ref([
     },
     {
         title: 'jobs',
-        icon:  'bx:bxs-cog',
+        icon:  'ix:work-case-filled',
         page: '/jobs'
     },
 
